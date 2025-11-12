@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +45,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /*
+    *En model j'aimerais bien avoir que des methodes contients la structure de base de donnees
+    *pour separer les interacions avec la base de donnes et le business logique
+    *afin d'eviter le decouplage des donnes
+    */
+    public function isManager()
+    {
+        return $this->role === 'Manager';
+    }
+
+    public function isEmployee()
+    {
+        return $this->role === 'Employee';
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class);
+    }
+
+    public function expenseLogs()
+    {
+        return $this->hasMany(ExpenseLog::class);
+    }
+
+    public function exports()
+    {
+        return $this->hasMany(Export::class);
     }
 }
